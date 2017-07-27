@@ -2,6 +2,7 @@ import BigNumber from 'big-number';
 
 //NHPT = Nanite Hundreths Per Tick
 export default (state = {
+	lastTickTime: null,
 	naniteHundredths: BigNumber(0),
 	buildings: [
 		{
@@ -59,6 +60,29 @@ export default (state = {
 			return {
 				...state,
 				naniteHundredths: BigNumber(state.naniteHundredths).plus(action.payload)
+			};
+
+		case 'TICK':
+			const tickTime = Date.now();
+			let lapsedMicroseconds = 100;
+
+			if(state.lastTickTime) {
+				lapsedMicroseconds = tickTime - state.lastTickTime;
+			}
+
+			const timeingMultiplier = Math.round(lapsedMicroseconds / 100);
+
+			let nanitesAfterTick = BigNumber(state.naniteHundredths);
+
+			state.buildings.forEach(bld => {
+				nanitesAfterTick.plus(BigNumber(bld.baseNHPT).mult(bld.owned).mult(timeingMultiplier));
+				console.log(nanitesAfterTick.val());
+			});
+
+			return {
+				...state,
+				lastTickTime: tickTime,
+				naniteHundredths: nanitesAfterTick
 			};
 
 		case 'BUY_BUILDING':

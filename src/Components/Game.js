@@ -17,9 +17,7 @@ class Game extends Component {
 	};
 
 	tick = () => {
-		this.props.buildings.forEach(b => {
-			this.props.addNanites(b.baseNHPT * b.owned);
-		});
+		this.props.tick();
 	};
 
 	handleButtonClick = () => {
@@ -50,6 +48,7 @@ class Game extends Component {
 
 const mapStateToProps = state => {
 	return {
+		lastTickTime: state.lastTickTime,
 		naniteHundredths: state.naniteHundredths,
 		buildings: state.buildings
 	};
@@ -57,6 +56,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
+		tick: () => dispatch({
+			type: 'TICK'
+		}),
+
 		addNanites: amountToAdd => {
 			dispatch({
 				type: 'ADD_NANITES',
