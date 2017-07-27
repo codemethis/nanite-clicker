@@ -9,7 +9,7 @@ class Building extends Component {
 
 	render() {
 		const building = this.props.buildings.find(bld => bld.id === this.props.buildingId);
-		const canBuy = BigNumber(building.priceOfNext).lte(BigNumber(this.props.naniteTenths).div(10));
+		const canBuy = BigNumber(building.priceOfNext).lte(BigNumber(this.props.naniteHundredths).div(100));
 
 		return (
 			<div>
@@ -24,7 +24,7 @@ class Building extends Component {
 
 const mapStateToProps = state => {
 	return {
-		naniteTenths: state.naniteTenths,
+		naniteHundredths: state.naniteHundredths,
 		buildings: state.buildings
 	};
 };

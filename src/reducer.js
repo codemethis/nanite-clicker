@@ -1,7 +1,8 @@
 import BigNumber from 'big-number';
 
+//NHPT = Nanite Hundreths Per Tick
 export default (state = {
-	naniteTenths: BigNumber(0),
+	naniteHundredths: BigNumber(0),
 	buildings: [
 		{
 			id: 1,
@@ -9,7 +10,7 @@ export default (state = {
 			owned: 0,
 			basePrice: BigNumber(15),
 			priceOfNext: BigNumber(15),
-			baseNTPS: BigNumber(1)
+			baseNHPT: BigNumber(1)
 		},
 		{
 			id: 2,
@@ -17,7 +18,7 @@ export default (state = {
 			owned: 0,
 			basePrice: BigNumber(100),
 			priceOfNext: BigNumber(100),
-			baseNTPS: BigNumber(10)
+			baseNHPT: BigNumber(10)
 		},
 		{
 			id: 3,
@@ -25,7 +26,7 @@ export default (state = {
 			owned: 0,
 			basePrice: BigNumber(1100),
 			priceOfNext: BigNumber(1100),
-			baseNTPS: BigNumber(80)
+			baseNHPT: BigNumber(80)
 		},
 		{
 			id: 4,
@@ -33,7 +34,7 @@ export default (state = {
 			owned: 0,
 			basePrice: BigNumber(12000),
 			priceOfNext: BigNumber(12000),
-			baseNTPS: BigNumber(470)
+			baseNHPT: BigNumber(470)
 		},
 		{
 			id: 5,
@@ -41,7 +42,7 @@ export default (state = {
 			owned: 0,
 			basePrice: BigNumber(130000),
 			priceOfNext: BigNumber(130000),
-			baseNTPS: BigNumber(2600)
+			baseNHPT: BigNumber(2600)
 		},
 		{
 			id: 6,
@@ -49,7 +50,7 @@ export default (state = {
 			owned: 0,
 			basePrice: BigNumber(1400000),
 			priceOfNext: BigNumber(1400000),
-			baseNTPS: BigNumber(14000)
+			baseNHPT: BigNumber(14000)
 		}
 	]
 }, action) => {
@@ -57,7 +58,7 @@ export default (state = {
 		case 'ADD_NANITES':
 			return {
 				...state,
-				naniteTenths: BigNumber(state.naniteTenths).plus(action.payload)
+				naniteHundredths: BigNumber(state.naniteHundredths).plus(action.payload)
 			};
 
 		case 'BUY_BUILDING':
@@ -72,14 +73,14 @@ export default (state = {
 			let b = buildings.find(bld => bld.id === action.payload);
 			b.owned++;
 
-			const nanitesAfterPurchase = BigNumber(state.naniteTenths).minus(BigNumber(b.priceOfNext).mult(10));
+			const nanitesAfterPurchase = BigNumber(state.naniteHundredths).minus(BigNumber(b.priceOfNext).mult(100));
 
 			const multiplier = Math.floor(Math.pow(1.15, b.owned) * 100);
 			b.priceOfNext = BigNumber(b.basePrice).mult(multiplier).div(100);
 
 			return {
 				...state,
-				naniteTenths: nanitesAfterPurchase,
+				naniteHundredths: nanitesAfterPurchase,
 				buildings
 			};
 
