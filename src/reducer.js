@@ -10,6 +10,46 @@ export default (state = {
 			basePrice: BigNumber(15),
 			priceOfNext: BigNumber(15),
 			baseNTPS: BigNumber(1)
+		},
+		{
+			id: 2,
+			name: 'Drone',
+			owned: 0,
+			basePrice: BigNumber(100),
+			priceOfNext: BigNumber(100),
+			baseNTPS: BigNumber(10)
+		},
+		{
+			id: 3,
+			name: 'Fabrication Plant',
+			owned: 0,
+			basePrice: BigNumber(1100),
+			priceOfNext: BigNumber(1100),
+			baseNTPS: BigNumber(80)
+		},
+		{
+			id: 4,
+			name: 'Colony',
+			owned: 0,
+			basePrice: BigNumber(12000),
+			priceOfNext: BigNumber(12000),
+			baseNTPS: BigNumber(470)
+		},
+		{
+			id: 5,
+			name: 'Space Station',
+			owned: 0,
+			basePrice: BigNumber(130000),
+			priceOfNext: BigNumber(130000),
+			baseNTPS: BigNumber(2600)
+		},
+		{
+			id: 6,
+			name: 'Panet',
+			owned: 0,
+			basePrice: BigNumber(1400000),
+			priceOfNext: BigNumber(1400000),
+			baseNTPS: BigNumber(14000)
 		}
 	]
 }, action) => {
