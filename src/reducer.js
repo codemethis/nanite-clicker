@@ -52,6 +52,30 @@ export default (state = {
 			basePrice: BigNumber(1400000),
 			priceOfNext: BigNumber(1400000),
 			baseNHPT: BigNumber(14000)
+		},
+		{
+			id: 7,
+			name: 'Nebula',
+			owned: 0,
+			basePrice: BigNumber(20000000),
+			priceOfNext: BigNumber(20000000),
+			baseNHPT: BigNumber(78000)
+		},
+		{
+			id: 8,
+			name: 'Galaxy',
+			owned: 0,
+			basePrice: BigNumber(330000000),
+			priceOfNext: BigNumber(330000000),
+			baseNHPT: BigNumber(440000)
+		},
+		{
+			id: 9,
+			name: 'Alternate Dimension',
+			owned: 0,
+			basePrice: BigNumber(5100000000),
+			priceOfNext: BigNumber(5100000000),
+			baseNHPT: BigNumber(2600000)
 		}
 	]
 }, action) => {
@@ -90,7 +114,7 @@ export default (state = {
 				...bld,
 				basePrice: BigNumber(bld.basePrice),
 				priceOfNext: BigNumber(bld.priceOfNext),
-				baseNTPS: BigNumber(bld.baseNTPS)
+				baseNHPT: BigNumber(bld.baseNHPT)
 			}));
 
 			let b = buildings.find(bld => bld.id === action.payload);
