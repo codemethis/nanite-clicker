@@ -47,7 +47,7 @@ export default (state = {
 		},
 		{
 			id: 6,
-			name: 'Panet',
+			name: 'Planet',
 			owned: 0,
 			basePrice: BigNumber(1400000),
 			priceOfNext: BigNumber(1400000),
@@ -76,7 +76,6 @@ export default (state = {
 
 			state.buildings.forEach(bld => {
 				nanitesAfterTick.plus(BigNumber(bld.baseNHPT).mult(bld.owned).mult(timeingMultiplier));
-				console.log(nanitesAfterTick.val());
 			});
 
 			return {
