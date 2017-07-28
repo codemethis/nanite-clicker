@@ -80,12 +80,6 @@ export default (state = {
 	]
 }, action) => {
 	switch(action.type) {
-		case 'ADD_NANITES':
-			return {
-				...state,
-				naniteHundredths: BigNumber(state.naniteHundredths).plus(action.payload)
-			};
-
 		case 'TICK':
 			const tickTime = Date.now();
 			let lapsedMicroseconds = 100;
@@ -106,6 +100,12 @@ export default (state = {
 				...state,
 				lastTickTime: tickTime,
 				naniteHundredths: nanitesAfterTick
+			};
+
+		case 'ADD_NANITES':
+			return {
+				...state,
+				naniteHundredths: BigNumber(state.naniteHundredths).plus(action.payload)
 			};
 
 		case 'BUY_BUILDING':

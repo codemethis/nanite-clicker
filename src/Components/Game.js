@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import BigNumber from 'big-number';
 
 import Building from './Building';
+import { tick, addNanites, buyBuilding} from '../Actions/gameActions';
 
 class Game extends Component {
 	constructor() {
@@ -27,7 +28,7 @@ class Game extends Component {
 	renderBuildings = () => {
 		return this.props.buildings.map(b => {
 			return (
-				<Building key={b.id} buildingId={b.id} />
+				<Building key={b.id} building={b} nanites={this.props.naniteHundredths} buyBuilding={this.props.buyBuilding} />
 			);
 		});
 	};
@@ -36,7 +37,7 @@ class Game extends Component {
 		return (
 			<div>
 				<h1>You have {this.displayNaniteValue()} nanites.</h1>
-				<button onClick={this.handleButtonClick}>Click to generate nanite</button>
+				<button onClick={() => this.props.addNanites(100)}>Click to generate nanite</button>
 
 				<br /><br /><br />
 				<h3>Buildings</h3>
@@ -56,16 +57,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		tick: () => dispatch({
-			type: 'TICK'
-		}),
-
-		addNanites: amountToAdd => {
-			dispatch({
-				type: 'ADD_NANITES',
-				payload: amountToAdd
-			});
-		}
+		tick: () => dispatch(tick()),
+		addNanites: amountToAdd => dispatch(addNanites(amountToAdd)),
+		buyBuilding: buildingId => dispatch(buyBuilding(buildingId))
 	};
 };
 
