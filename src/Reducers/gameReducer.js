@@ -125,6 +125,7 @@ export default (state = defaultState, action) => {
 			});
 
 			stateClone.naniteHundredths = BigNumber(savedState.naniteHundredths);
+			stateClone.lastTickTime = null;
 
 			return stateClone;
 
@@ -162,6 +163,8 @@ export default (state = defaultState, action) => {
 			state.buildings.forEach(bld => {
 				stateClone.naniteHundredths.plus(BigNumber(bld.baseNHPT).mult(bld.owned).mult(timeingMultiplier));
 			});
+
+			stateClone.lastTickTime = tickTime;
 
 			return stateClone;
 
