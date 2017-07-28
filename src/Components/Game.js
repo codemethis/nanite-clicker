@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import BigNumber from 'big-number';
 
@@ -13,8 +14,6 @@ class Game extends Component {
 		window.setInterval(() => this.tick(), 100);
 		window.setInterval(() => this.props.saveGame(), 60000);
 	}
-
-	saveGame
 
 	displayNaniteValue = () => {
 		const wholeNanites = BigNumber(this.props.naniteHundredths).div(100);
@@ -49,6 +48,16 @@ class Game extends Component {
 			</div>
 		);
 	}
+}
+
+Game.propTypes = {
+	naniteHundredths: PropTypes.object.isRequired,
+	buildings: PropTypes.arrayOf(PropTypes.object).isRequired,
+	loadGame: PropTypes.func.isRequired,
+	saveGame: PropTypes.func.isRequired,
+	tick: PropTypes.func.isRequired,
+	addNanites: PropTypes.func.isRequired,
+	buyBuilding: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
