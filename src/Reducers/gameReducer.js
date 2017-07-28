@@ -1,7 +1,6 @@
 import BigNumber from 'big-number';
 
-//NHPT = Nanite Hundreths Per Tick
-export default (state = {
+const defaultState = {
 	lastTickTime: null,
 	naniteHundredths: BigNumber(0),
 	buildings: [
@@ -78,7 +77,10 @@ export default (state = {
 			baseNHPT: BigNumber(2600000)
 		}
 	]
-}, action) => {
+};
+
+//NHPT = Nanite Hundreths Per Tick
+export default (state = defaultState, action) => {
 	let buildings = [];
 	state.buildings.forEach(bld => {
 		buildings.push({
@@ -131,6 +133,25 @@ export default (state = {
 			});
 			console.info('Game Saved');
 			return state;
+
+		case 'CLEAR_SAVE':
+			buildings = [];
+			defaultState.buildings.forEach(bld => {
+				buildings.push({
+					...bld,
+					basePrice: BigNumber(bld.basePrice),
+					priceOfNext: BigNumber(bld.priceOfNext),
+					baseNHPT: BigNumber(bld.baseNHPT)
+				});
+			});
+
+			localStorage.removeItem('naniteSavedGame');
+
+			return {
+				lastTickTime: null,
+				naniteHundredths: BigNumber(0),
+				buildings
+			};
 
 		case 'TICK':
 			const tickTime = Date.now();

@@ -10,6 +10,12 @@ export function saveGame() {
 	};
 }
 
+export function clearSave() {
+	return {
+		type: 'CLEAR_SAVE'
+	};
+}
+
 export function tick() {
 	return {
 		type: 'TICK'
