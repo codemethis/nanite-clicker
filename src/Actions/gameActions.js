@@ -1,3 +1,15 @@
+export function loadGame() {
+	return {
+		type: 'LOAD_GAME'
+	};
+}
+
+export function saveGame() {
+	return {
+		type: 'SAVE_GAME'
+	};
+}
+
 export function tick() {
 	return {
 		type: 'TICK'

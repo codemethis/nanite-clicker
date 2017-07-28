@@ -79,7 +79,59 @@ export default (state = {
 		}
 	]
 }, action) => {
+	let buildings = [];
+	state.buildings.forEach(bld => {
+		buildings.push({
+			...bld,
+			basePrice: BigNumber(bld.basePrice),
+			priceOfNext: BigNumber(bld.priceOfNext),
+			baseNHPT: BigNumber(bld.baseNHPT)
+		});
+	});
+
 	switch(action.type) {
+		case 'LOAD_GAME':
+			let savedState = localStorage.naniteSavedGame;
+			if(savedState == null) {
+				return state;
+			}
+
+			savedState = JSON.parse(savedState);
+
+			buildings.forEach(b => {
+				let saved = savedState.buildings.find(s => s.id === b.id);
+				if(saved) {
+					Object.assign(b, {
+						...saved,
+						basePrice: BigNumber(saved.basePrice),
+						priceOfNext: BigNumber(saved.priceOfNext),
+						baseNHPT: BigNumber(saved.baseNHPT)
+					});
+				}
+			});
+
+			return {
+				lastTickTime: null,
+				naniteHundredths: BigNumber(savedState.naniteHundredths),
+				buildings
+			};
+
+		case 'SAVE_GAME':
+			let simplifiedBuildings = [];
+			buildings.forEach(b => simplifiedBuildings.push({
+				...b,
+				basePrice: b.basePrice.val(),
+				priceOfNext: b.priceOfNext.val(),
+				baseNHPT: b.baseNHPT.val()
+			}));
+
+			localStorage.naniteSavedGame = JSON.stringify({
+				naniteHundredths: state.naniteHundredths.val(),
+				buildings: simplifiedBuildings
+			});
+			console.info('Game Saved');
+			return state;
+
 		case 'TICK':
 			const tickTime = Date.now();
 			let lapsedMicroseconds = 100;
@@ -109,14 +161,6 @@ export default (state = {
 			};
 
 		case 'BUY_BUILDING':
-			let buildings = [];
-			state.buildings.forEach(bld => buildings.push({
-				...bld,
-				basePrice: BigNumber(bld.basePrice),
-				priceOfNext: BigNumber(bld.priceOfNext),
-				baseNHPT: BigNumber(bld.baseNHPT)
-			}));
-
 			let b = buildings.find(bld => bld.id === action.payload);
 			b.owned++;
 

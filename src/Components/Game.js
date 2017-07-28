@@ -3,14 +3,18 @@ import { connect } from 'react-redux';
 import BigNumber from 'big-number';
 
 import Building from './Building';
-import { tick, addNanites, buyBuilding} from '../Actions/gameActions';
+import { loadGame, saveGame, tick, addNanites, buyBuilding } from '../Actions/gameActions';
 
 class Game extends Component {
-	constructor() {
+	constructor(props) {
 		super();
 
+		props.loadGame();
 		window.setInterval(() => this.tick(), 100);
+		window.setInterval(() => this.props.saveGame(), 60000);
 	}
+
+	saveGame
 
 	displayNaniteValue = () => {
 		const wholeNanites = BigNumber(this.props.naniteHundredths).div(100);
@@ -49,7 +53,6 @@ class Game extends Component {
 
 const mapStateToProps = state => {
 	return {
-		lastTickTime: state.lastTickTime,
 		naniteHundredths: state.naniteHundredths,
 		buildings: state.buildings
 	};
@@ -57,6 +60,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
+		loadGame: () => dispatch(loadGame()),
+		saveGame: () => dispatch(saveGame()),
 		tick: () => dispatch(tick()),
 		addNanites: amountToAdd => dispatch(addNanites(amountToAdd)),
 		buyBuilding: buildingId => dispatch(buyBuilding(buildingId))
