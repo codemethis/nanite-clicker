@@ -10,7 +10,7 @@ function Building(props) {
 		<div>
 			<h5>{building.name}</h5>
 			<div>{building.owned}</div>
-			<div>{building.priceOfNext.val()}</div>
+			<div>{props.prettifyNumber(building.priceOfNext)}</div>
 			<button onClick={() => props.buyBuilding(building.id)} disabled={!canBuy}>Buy</button>
 		</div>
 	);
@@ -19,7 +19,8 @@ function Building(props) {
 Building.propTypes = {
 	building: PropTypes.object.isRequired,
 	nanites: PropTypes.object.isRequired,
-	buyBuilding: PropTypes.func.isRequired
+	buyBuilding: PropTypes.func.isRequired,
+	prettifyNumber: PropTypes.func.isRequired
 };
 
 export default Building;
