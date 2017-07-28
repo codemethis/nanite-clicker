@@ -79,17 +79,29 @@ const defaultState = {
 	]
 };
 
+function deepCloneBuildingObject(buildingObject) {
+	return {
+		...buildingObject,
+		basePrice: BigNumber(buildingObject.basePrice),
+		priceOfNext: BigNumber(buildingObject.priceOfNext),
+		baseNHPT: BigNumber(buildingObject.baseNHPT)
+	};
+}
+
+function deepCloneStateObject(stateObject) {
+	let buildings = [];
+	stateObject.buildings.forEach(b => buildings.push(deepCloneBuildingObject(b)));
+
+	return {
+		...stateObject,
+		naniteHundredths: BigNumber(stateObject.naniteHundredths),
+		buildings
+	};
+}
+
 //NHPT = Nanite Hundreths Per Tick
 export default (state = defaultState, action) => {
-	let buildings = [];
-	state.buildings.forEach(bld => {
-		buildings.push({
-			...bld,
-			basePrice: BigNumber(bld.basePrice),
-			priceOfNext: BigNumber(bld.priceOfNext),
-			baseNHPT: BigNumber(bld.baseNHPT)
-		});
-	});
+	let stateClone = deepCloneStateObject(state);
 
 	switch(action.type) {
 		case 'LOAD_GAME':
@@ -100,7 +112,7 @@ export default (state = defaultState, action) => {
 
 			savedState = JSON.parse(savedState);
 
-			buildings.forEach(b => {
+			stateClone.buildings.forEach(b => {
 				let saved = savedState.buildings.find(s => s.id === b.id);
 				if(saved) {
 					Object.assign(b, {
@@ -112,15 +124,13 @@ export default (state = defaultState, action) => {
 				}
 			});
 
-			return {
-				lastTickTime: null,
-				naniteHundredths: BigNumber(savedState.naniteHundredths),
-				buildings
-			};
+			stateClone.naniteHundredths = BigNumber(savedState.naniteHundredths);
+
+			return stateClone;
 
 		case 'SAVE_GAME':
 			let simplifiedBuildings = [];
-			buildings.forEach(b => simplifiedBuildings.push({
+			state.buildings.forEach(b => simplifiedBuildings.push({
 				...b,
 				basePrice: b.basePrice.val(),
 				priceOfNext: b.priceOfNext.val(),
@@ -135,23 +145,9 @@ export default (state = defaultState, action) => {
 			return state;
 
 		case 'CLEAR_SAVE':
-			buildings = [];
-			defaultState.buildings.forEach(bld => {
-				buildings.push({
-					...bld,
-					basePrice: BigNumber(bld.basePrice),
-					priceOfNext: BigNumber(bld.priceOfNext),
-					baseNHPT: BigNumber(bld.baseNHPT)
-				});
-			});
-
 			localStorage.removeItem('naniteSavedGame');
 
-			return {
-				lastTickTime: null,
-				naniteHundredths: BigNumber(0),
-				buildings
-			};
+			return deepCloneStateObject(defaultState);
 
 		case 'TICK':
 			const tickTime = Date.now();
@@ -163,38 +159,27 @@ export default (state = defaultState, action) => {
 
 			const timeingMultiplier = Math.round(lapsedMicroseconds / 100);
 
-			let nanitesAfterTick = BigNumber(state.naniteHundredths);
-
 			state.buildings.forEach(bld => {
-				nanitesAfterTick.plus(BigNumber(bld.baseNHPT).mult(bld.owned).mult(timeingMultiplier));
+				stateClone.naniteHundredths.plus(BigNumber(bld.baseNHPT).mult(bld.owned).mult(timeingMultiplier));
 			});
 
-			return {
-				...state,
-				lastTickTime: tickTime,
-				naniteHundredths: nanitesAfterTick
-			};
+			return stateClone;
 
 		case 'ADD_NANITES':
-			return {
-				...state,
-				naniteHundredths: BigNumber(state.naniteHundredths).plus(action.payload)
-			};
+			stateClone.naniteHundredths.plus(action.payload);
+
+			return stateClone;
 
 		case 'BUY_BUILDING':
-			let b = buildings.find(bld => bld.id === action.payload);
+			let b = stateClone.buildings.find(bld => bld.id === action.payload);
 			b.owned++;
 
-			const nanitesAfterPurchase = BigNumber(state.naniteHundredths).minus(BigNumber(b.priceOfNext).mult(100));
+			stateClone.naniteHundredths.minus(BigNumber(b.priceOfNext).mult(100));
 
 			const multiplier = Math.floor(Math.pow(1.15, b.owned) * 100);
 			b.priceOfNext = BigNumber(b.basePrice).mult(multiplier).div(100);
 
-			return {
-				...state,
-				naniteHundredths: nanitesAfterPurchase,
-				buildings
-			};
+			return stateClone;
 
 		default:
 			return state;
