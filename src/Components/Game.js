@@ -13,6 +13,7 @@ class Game extends Component {
 
 		props.loadGame();
 		window.setInterval(() => props.tick(), 100);
+		window.setInterval(() => this.updateTitleTag(), 5000);
 		window.setInterval(() => props.saveGame(), 60000);
 	}
 
@@ -20,6 +21,14 @@ class Game extends Component {
 		const wholeNanites = BigNumber(this.props.naniteHundredths).div(100);
 		return prettifyNumber(wholeNanites, true);
 	};
+
+	updateTitleTag = () => {
+		document.getElementsByTagName('title')[0].text = prettifyNumber(BigNumber(this.props.naniteHundredths).div(100)) + ' nanites - Nanite Clicker';
+	}
+
+	componentWillMount() {
+		this.updateTitleTag();
+	}
 
 	renderBuildings = () => {
 		return this.props.buildings.map(b => {
