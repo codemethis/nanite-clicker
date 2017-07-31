@@ -1,6 +1,6 @@
 import BigNumber from 'big-number';
 
-export function prettifyNumber (n) {
+export function prettifyNumber (n, trailingZeroes = false) {
 		let bigN = BigNumber(n);
 		if(bigN.lt(1000)) {
 			return bigN.val();
@@ -32,18 +32,21 @@ export function prettifyNumber (n) {
 		}
 
 		const integerPart = parseInt(BigNumber(bigN).div(word.value), 10);
-		let decimalPart = '';
-		const secondDigit = bigN.number.slice(-2, -1)[0];
-		const thirdDigit = bigN.number.slice(-3, -2)[0];
+		const integerDigits = integerPart.toString().length;
 
-		if(integerPart < 10) {
-			if(thirdDigit === 0) {
-				decimalPart = secondDigit === 0 ? '' : `.${secondDigit}`;
+		let decimalPart = BigNumber(bigN).number.slice((integerDigits + 3) * -1, integerDigits * -1);
+		if(decimalPart[0] === 0 && !trailingZeroes) {
+			if(decimalPart[1] === 0) {
+				if(decimalPart[2] === 0) {
+					decimalPart = '';
+				} else {
+					decimalPart = '.' + decimalPart[2];
+				}
 			} else {
-				decimalPart = `.${secondDigit}${thirdDigit}`;
+				decimalPart = '.' + decimalPart[2] + decimalPart[1];
 			}
-		} else if(integerPart < 100) {
-			decimalPart = thirdDigit === 0 ? '' : `.${thirdDigit}`;
+		} else {
+			decimalPart = '.' + decimalPart.reverse().join('');
 		}
 
 		return `${integerPart}${decimalPart}${word.name}`;

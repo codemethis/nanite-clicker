@@ -18,7 +18,7 @@ class Game extends Component {
 
 	displayNaniteValue = () => {
 		const wholeNanites = BigNumber(this.props.naniteHundredths).div(100);
-		return prettifyNumber(wholeNanites);
+		return prettifyNumber(wholeNanites, true);
 	};
 
 	renderBuildings = () => {
