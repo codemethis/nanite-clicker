@@ -33,18 +33,30 @@ class Game extends Component {
 
 	render() {
 		return (
-			<div>
-				<h1>You have {this.displayNaniteValue()} nanites.</h1>
-				<button onClick={() => this.props.addNanites(100)}>Click to generate nanite</button>
-				<br /><br />
-				<button onClick={this.props.saveGame}>Save Game</button> <button onClick={this.props.clearSave}>Clear Save</button>
+			<div className="container">
+				<div className="row text-center">
+					<div className="col-xs-12">
+						<h1>You have {this.displayNaniteValue()} nanites.</h1>
+					</div>
+					<div className="col-xs-12" style={{padding: '0.5em'}}>
+						<button className="btn btn-primary" onClick={() => this.props.addNanites(100)}>Click to generate nanite</button>
+					</div>
+					<div className="col-xs-12">
+						<button className="btn btn-default" onClick={this.props.saveGame}>Save Game</button>
+						&nbsp;
+						<button className="btn btn-danger" onClick={this.props.clearSave}>Clear Save</button>
+					</div>
+				</div>
 
-				<br /><br />
-				<Stats nanites={this.props.naniteHundredths}
-						nanitesPerSecond={this.props.nanitesPerSecond}
-						generatedNanites={this.props.nanitesGenerated}
-						handGeneratedNanites={this.props.nanitesHandGenerated}
-						buildingsOwned={this.props.buildingsOwned} />
+				<div className="row" style={{marginTop: '3em'}}>
+					<div className="col-xs-12 col-lg-6 col-lg-offset-3">
+						<Stats nanites={this.props.naniteHundredths}
+								nanitesPerSecond={this.props.nanitesPerSecond}
+								generatedNanites={this.props.nanitesGenerated}
+								handGeneratedNanites={this.props.nanitesHandGenerated}
+								buildingsOwned={this.props.buildingsOwned} />
+					</div>
+				</div>
 
 				<br /><br /><br />
 				<h3>Buildings</h3>
