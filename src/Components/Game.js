@@ -26,10 +26,6 @@ class Game extends Component {
 		document.getElementsByTagName('title')[0].text = prettifyNumber(BigNumber(this.props.naniteHundredths).div(100)) + ' nanites - Nanite Clicker';
 	}
 
-	componentWillMount() {
-		this.updateTitleTag();
-	}
-
 	renderBuildings = () => {
 		return this.props.buildings.map(b => {
 			return (
@@ -39,6 +35,8 @@ class Game extends Component {
 	};
 
 	render() {
+		this.updateTitleTag();
+
 		return (
 			<div>
 				<h1>You have {this.displayNaniteValue()} nanites.</h1>
