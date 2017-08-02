@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import BigNumber from 'big-number';
 
 import Building from './Building';
+import Stats from './Stats';
 import { loadGame, saveGame, clearSave, tick, addNanites, buyBuilding } from '../Actions/gameActions';
 import { prettifyNumber } from '../Utilities/utilities';
 
@@ -44,6 +45,13 @@ class Game extends Component {
 				<br /><br />
 				<button onClick={this.props.saveGame}>Save Game</button> <button onClick={this.props.clearSave}>Clear Save</button>
 
+				<br /><br />
+				<Stats nanites={this.props.naniteHundredths}
+						nanitesPerSecond={this.props.nanitesPerSecond}
+						generatedNanites={this.props.nanitesGenerated}
+						handGeneratedNanites={this.props.nanitesHandGenerated}
+						buildingsOwned={this.props.buildingsOwned} />
+
 				<br /><br /><br />
 				<h3>Buildings</h3>
 				{this.renderBuildings()}
@@ -54,6 +62,10 @@ class Game extends Component {
 
 Game.propTypes = {
 	naniteHundredths: PropTypes.object.isRequired,
+	nanitesPerSecond: PropTypes.object.isRequired,
+	nanitesGenerated: PropTypes.object.isRequired,
+	nanitesHandGenerated: PropTypes.object.isRequired,
+	buildingsOwned: PropTypes.number.isRequired,
 	buildings: PropTypes.arrayOf(PropTypes.object).isRequired,
 	loadGame: PropTypes.func.isRequired,
 	saveGame: PropTypes.func.isRequired,
@@ -66,6 +78,10 @@ Game.propTypes = {
 const mapStateToProps = state => {
 	return {
 		naniteHundredths: state.naniteHundredths,
+		nanitesPerSecond: state.nanitesPerSecond,
+		nanitesGenerated: state.nanitesGenerated,
+		nanitesHandGenerated: state.nanitesHandGenerated,
+		buildingsOwned: state.buildingsOwned,
 		buildings: state.buildings
 	};
 };
