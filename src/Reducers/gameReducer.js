@@ -1,4 +1,5 @@
 import BigNumber from 'big-number';
+import { updateTitleTag } from '../Utilities/utilities';
 
 const defaultState = {
 	lastTickTime: null,
@@ -7,7 +8,7 @@ const defaultState = {
 	nanitesHandGenerated: BigNumber(0),
 	buildingsOwned: 0,
 	nanitesPerSecond: BigNumber(0),
-	buildings: [
+	buildings: [ //NHPT = Nanite Hundreths Per Tick
 		{
 			id: 1,
 			name: 'Replicator',
@@ -106,7 +107,6 @@ function deepCloneStateObject(stateObject) {
 	};
 }
 
-//NHPT = Nanite Hundreths Per Tick
 export default (state = defaultState, action) => {
 	let stateClone = deepCloneStateObject(state);
 
@@ -140,6 +140,8 @@ export default (state = defaultState, action) => {
 				buildingsOwned: savedState.buildingsOwned ? parseInt(savedState.buildingsOwned, 10) : 0,
 				nanitesPerSecond: BigNumber(savedState.nanitesPerSecond)
 			};
+
+			updateTitleTag(savedState.naniteHundredths);
 
 			return stateClone;
 
