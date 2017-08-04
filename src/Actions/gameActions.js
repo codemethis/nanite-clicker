@@ -35,3 +35,19 @@ export function buyBuilding(buildingId) {
 		payload: buildingId
 	};
 }
+
+export function hideTooltip() {
+	return {
+		type: 'HIDE_TOOLTIP'
+	};
+}
+
+export function moveTooltip(buildingId, mouseY) {
+	return {
+		type: 'MOVE_TOOLTIP',
+		payload: {
+			buildingId,
+			mouseY
+		}
+	};
+}

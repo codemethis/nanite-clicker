@@ -5,7 +5,8 @@ import BigNumber from 'big-number';
 
 import Building from './Building';
 import Stats from './Stats';
-import { loadGame, saveGame, clearSave, tick, addNanites, buyBuilding } from '../Actions/gameActions';
+import Tooltip from './Tooltip';
+import { loadGame, saveGame, clearSave, tick, addNanites, buyBuilding, hideTooltip, moveTooltip } from '../Actions/gameActions';
 import { prettifyNumber, updateTitleTag } from '../Utilities/utilities';
 
 import greenNebula from '../Images/greenNebula.jpg';
@@ -28,14 +29,16 @@ class Game extends Component {
 	renderBuildings = () => {
 		return this.props.buildings.map(b => {
 			return (
-				<Building key={b.id} building={b} nanites={this.props.naniteHundredths} buyBuilding={this.props.buyBuilding} />
+				<Building key={b.id} building={b} nanites={this.props.naniteHundredths} buyBuilding={this.props.buyBuilding} moveTooltip={this.props.moveTooltip} />
 			);
 		});
 	};
 
 	render() {
+		const tooltipBuilding = this.props.buildings.find(b => b.id === this.props.tooltipBuilding);
+
 		return (
-			<div style={{height: '100vh', width: '100vw'}}>
+			<div id="Game">
 				<div id="leftPanel" style={{backgroundImage: 'url(' + greenNebula + ')'}}>
 					<div id="banner">
 						<h2>{this.displayNaniteValue()} nanites</h2>
@@ -55,39 +58,11 @@ class Game extends Component {
 				</div>
 				<div id="rightPanel">
 					<h2 className="text-center">Buildings</h2>
-					{this.renderBuildings()}
-				</div>
-			{/*
-			<div className="container">
-				<div className="row text-center">
-					<div className="col-xs-12">
-						<h1>You have {this.displayNaniteValue()} nanites.</h1>
-					</div>
-					<div className="col-xs-12" style={{padding: '0.5em'}}>
-						<button className="btn btn-primary" onClick={() => this.props.addNanites(100)}>Click to generate nanite</button>
-					</div>
-					<div className="col-xs-12">
-						<button className="btn btn-default" onClick={this.props.saveGame}>Save Game</button>
-						&nbsp;
-						<button className="btn btn-danger" onClick={this.props.clearSave}>Clear Save</button>
+					<div id="buildingContainer" onMouseLeave={() => this.props.hideTooltip()}>
+						{this.renderBuildings()}
 					</div>
 				</div>
-
-				<div className="row" style={{marginTop: '3em'}}>
-					<div className="col-xs-12 col-lg-6 col-lg-offset-3">
-						<Stats nanites={this.props.naniteHundredths}
-								nanitesPerSecond={this.props.nanitesPerSecond}
-								generatedNanites={this.props.nanitesGenerated}
-								handGeneratedNanites={this.props.nanitesHandGenerated}
-								buildingsOwned={this.props.buildingsOwned} />
-					</div>
-				</div>
-
-				<br /><br /><br />
-				<h3>Buildings</h3>
-				{this.renderBuildings()}
-			</div>
-			*/}
+				<Tooltip tooltipActive={this.props.tooltipActive} tooltipTop={this.props.tooltipTop} tooltipBuilding={tooltipBuilding} />
 			</div>
 		);
 	}
@@ -100,12 +75,17 @@ Game.propTypes = {
 	nanitesHandGenerated: PropTypes.object.isRequired,
 	buildingsOwned: PropTypes.number.isRequired,
 	buildings: PropTypes.arrayOf(PropTypes.object).isRequired,
+	tooltipActive: PropTypes.string.isRequired,
+	tooltipTop: PropTypes.string.isRequired,
+	tooltipBuilding: PropTypes.number.isRequired,
 	loadGame: PropTypes.func.isRequired,
 	saveGame: PropTypes.func.isRequired,
 	clearSave: PropTypes.func.isRequired,
 	tick: PropTypes.func.isRequired,
 	addNanites: PropTypes.func.isRequired,
-	buyBuilding: PropTypes.func.isRequired
+	buyBuilding: PropTypes.func.isRequired,
+	hideTooltip: PropTypes.func.isRequired,
+	moveTooltip: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -115,7 +95,10 @@ const mapStateToProps = state => {
 		nanitesGenerated: state.nanitesGenerated,
 		nanitesHandGenerated: state.nanitesHandGenerated,
 		buildingsOwned: state.buildingsOwned,
-		buildings: state.buildings
+		buildings: state.buildings,
+		tooltipActive: state.tooltipActive,
+		tooltipTop: state.tooltipTop,
+		tooltipBuilding: state.tooltipBuilding
 	};
 };
 
@@ -131,7 +114,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		tick: () => dispatch(tick()),
 		addNanites: amountToAdd => dispatch(addNanites(amountToAdd)),
-		buyBuilding: buildingId => dispatch(buyBuilding(buildingId))
+		buyBuilding: buildingId => dispatch(buyBuilding(buildingId)),
+		hideTooltip: () => dispatch(hideTooltip()),
+		moveTooltip: (buildingId, mouseY) => dispatch(moveTooltip(buildingId, mouseY))
 	};
 };
 
