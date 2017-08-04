@@ -1,5 +1,82 @@
+@import url("https://fonts.googleapis.com/css?family=Orbitron");
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-}
+  background-color: #000;
+  color: #080;
+  font-family: 'Orbitron', sans-serif; }
+
+#leftPanel {
+  height: 100%;
+  width: 41.66667%;
+  float: left;
+  position: relative;
+  background-size: cover; }
+  @media (max-width: 768px) {
+    #leftPanel {
+      width: 100%; } }
+
+#banner {
+  position: absolute;
+  top: 10%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  text-align: center; }
+
+#bigNanite {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  top: calc(40% - 125px);
+  left: calc(50% - 125px);
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 1px solid #080;
+  padding: 0.4em;
+  cursor: pointer; }
+  #bigNanite:hover {
+    width: 275px;
+    height: 275px;
+    top: calc(40% - 137.5px);
+    left: calc(50% - 137.5px); }
+  #bigNanite:active {
+    width: 250px;
+    height: 250px;
+    top: calc(40% - 125px);
+    left: calc(50% - 125px); }
+  @media (max-width: 768px) {
+    #bigNanite, #bigNanite:hover {
+      width: 250px;
+      height: 250px;
+      top: calc(60% - 125px);
+      left: calc(50% - 125px); }
+    #bigNanite:active {
+      width: 275px;
+      height: 275px;
+      top: calc(60% - 137.5px);
+      left: calc(50% - 137.5px); } }
+
+#centerPanel {
+  height: 100%;
+  width: 25%;
+  float: left;
+  padding: 1em; }
+  @media (max-width: 768px) {
+    #centerPanel {
+      height: auto;
+      width: 100%; } }
+
+#rightPanel {
+  height: 100%;
+  width: 33.33333%;
+  float: left;
+  padding: 1em;
+  overflow: auto; }
+  @media (max-width: 768px) {
+    #rightPanel {
+      height: auto;
+      width: 100%; } }
+
+.building {
+  border: 1px solid #080;
+  padding: 1em; }

@@ -9,21 +9,21 @@ export function prettifyNumber (n, trailingZeroes = false) {
 		return `${BigNumber(bigN).div(1000).val()},${bigN.number.slice(0,3).reverse().join('')}`;
 	}
 	const numbers = [
-		{name: ' million', value: BigNumber('1000000')},
-		{name: ' billion', value: BigNumber('1000000000')},
-		{name: ' trillion', value: BigNumber('1000000000000')},
-		{name: ' quadrillion', value: BigNumber('1000000000000000')},
-		{name: ' quintillion', value: BigNumber('1000000000000000000')},
-		{name: ' sextillion', value: BigNumber('1000000000000000000000')},
-		{name: ' septillion', value: BigNumber('1000000000000000000000000')},
-		{name: ' octillion', value: BigNumber('1000000000000000000000000000')},
-		{name: ' nonillion', value: BigNumber('1000000000000000000000000000000')},
-		{name: ' decillion', value: BigNumber('1000000000000000000000000000000000')},
-		{name: ' undecillion', value: BigNumber('1000000000000000000000000000000000000')},
-		{name: ' duodecillion', value: BigNumber('1000000000000000000000000000000000000000')},
-		{name: ' tredecillion', value: BigNumber('1000000000000000000000000000000000000000000')},
-		{name: ' quattuordecillion', value: BigNumber('1000000000000000000000000000000000000000000000')},
-		{name: ' quindecillion', value: BigNumber('1000000000000000000000000000000000000000000000000')},
+		{name: 'million', value: BigNumber('1000000')},
+		{name: 'billion', value: BigNumber('1000000000')},
+		{name: 'trillion', value: BigNumber('1000000000000')},
+		{name: 'quadrillion', value: BigNumber('1000000000000000')},
+		{name: 'quintillion', value: BigNumber('1000000000000000000')},
+		{name: 'sextillion', value: BigNumber('1000000000000000000000')},
+		{name: 'septillion', value: BigNumber('1000000000000000000000000')},
+		{name: 'octillion', value: BigNumber('1000000000000000000000000000')},
+		{name: 'nonillion', value: BigNumber('1000000000000000000000000000000')},
+		{name: 'decillion', value: BigNumber('1000000000000000000000000000000000')},
+		{name: 'undecillion', value: BigNumber('1000000000000000000000000000000000000')},
+		{name: 'duodecillion', value: BigNumber('1000000000000000000000000000000000000000')},
+		{name: 'tredecillion', value: BigNumber('1000000000000000000000000000000000000000000')},
+		{name: 'quattuordecillion', value: BigNumber('1000000000000000000000000000000000000000000000')},
+		{name: 'quindecillion', value: BigNumber('1000000000000000000000000000000000000000000000000')},
 	];
 
 	const word = numbers.find(x => bigN.lt(BigNumber(x.value).mult(1000)));
@@ -49,7 +49,7 @@ export function prettifyNumber (n, trailingZeroes = false) {
 		decimalPart = '.' + decimalPart.reverse().join('');
 	}
 
-	return `${integerPart}${decimalPart}${word.name}`;
+	return `${integerPart}${decimalPart}\xa0${word.name}`;
 }
 
 export function updateTitleTag(nanites) {
