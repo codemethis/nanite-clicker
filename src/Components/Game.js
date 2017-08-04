@@ -26,16 +26,25 @@ class Game extends Component {
 		return prettifyNumber(wholeNanites, true);
 	};
 
-	renderBuildings = () => {
-		return this.props.buildings.map(b => {
-			return (
-				<Building key={b.id} building={b} nanites={this.props.naniteHundredths} buyBuilding={this.props.buyBuilding} moveTooltip={this.props.moveTooltip} />
-			);
-		});
-	};
-
 	render() {
 		const tooltipBuilding = this.props.buildings.find(b => b.id === this.props.tooltipBuilding);
+		const  renderBuildings = () => {
+			return this.props.buildings.map(b => {
+				return (
+					<Building key={b.id} building={b} nanites={this.props.naniteHundredths} buyBuilding={this.props.buyBuilding} moveTooltip={this.props.moveTooltip} />
+				);
+			});
+		};
+		const renderTooltip = () => {
+			let tt = '';
+			if(this.props.tooltipActive) {
+				tt = (
+					<Tooltip tooltipTop={this.props.tooltipTop} tooltipBuilding={tooltipBuilding} />
+				);
+			}
+
+			return tt;
+		}
 
 		return (
 			<div id="Game">
@@ -59,10 +68,10 @@ class Game extends Component {
 				<div id="rightPanel">
 					<h2 className="text-center">Buildings</h2>
 					<div id="buildingContainer" onMouseLeave={() => this.props.hideTooltip()}>
-						{this.renderBuildings()}
+						{renderBuildings()}
 					</div>
 				</div>
-				<Tooltip tooltipActive={this.props.tooltipActive} tooltipTop={this.props.tooltipTop} tooltipBuilding={tooltipBuilding} />
+				{renderTooltip()}
 			</div>
 		);
 	}
@@ -75,7 +84,7 @@ Game.propTypes = {
 	nanitesHandGenerated: PropTypes.object.isRequired,
 	buildingsOwned: PropTypes.number.isRequired,
 	buildings: PropTypes.arrayOf(PropTypes.object).isRequired,
-	tooltipActive: PropTypes.string.isRequired,
+	tooltipActive: PropTypes.bool.isRequired,
 	tooltipTop: PropTypes.string.isRequired,
 	tooltipBuilding: PropTypes.number.isRequired,
 	loadGame: PropTypes.func.isRequired,

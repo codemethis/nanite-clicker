@@ -101,7 +101,7 @@ const defaultState = {
 		}
 	],
 
-	tooltipActive: 'none',
+	tooltipActive: false,
 	tooltipTop: '0px',
 	tooltipBuilding: 1
 };
@@ -234,12 +234,12 @@ export default (state = defaultState, action) => {
 			return stateClone;
 
 		case 'HIDE_TOOLTIP':
-			stateClone.tooltipActive = 'none';
+			stateClone.tooltipActive = false;
 
 			return stateClone;
 
 		case 'MOVE_TOOLTIP':
-			stateClone.tooltipActive = 'block';
+			stateClone.tooltipActive = true;
 			stateClone.tooltipBuilding = action.payload.buildingId;
 			stateClone.tooltipTop = action.payload.mouseY;
 

@@ -27,7 +27,7 @@ function Tooltip(props) {
 	};
 
 	return (
-		<div id="tooltip" style={{display: props.tooltipActive, top: props.tooltipTop}}>
+		<div id="tooltip" style={{top: props.tooltipTop}}>
 			<h4>{b.name}</h4>
 			<p className="description">{b.description}</p>
 			{ownedDetails()}
@@ -36,7 +36,6 @@ function Tooltip(props) {
 }
 
 Tooltip.propTypes = {
-	tooltipActive: PropTypes.string.isRequired,
 	tooltipTop: PropTypes.string.isRequired,
 	tooltipBuilding: PropTypes.object.isRequired
 }
