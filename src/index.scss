@@ -11,6 +11,20 @@ $leftWidth: 5 / 12 * 100%;
 $centerWidth: 3 / 12 * 100%;
 $rightWidth: 4 /12 * 100%;
 
+* {
+	box-sizing: border-box;
+}
+
+a {
+	&, &:visited {
+		color: $highlightGreen;
+	}
+}
+
+.text-center {
+	text-align: center;
+}
+
 body {
   margin: 0;
   padding: 0;

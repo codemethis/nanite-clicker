@@ -58,6 +58,16 @@ class Game extends Component {
 					</div>
 				</div>
 				<div id="centerPanel">
+					<h1 className="text-center">Nanite Clicker</h1>
+					Nanite Clicker is an incremental idle game heavily inspired by <a href="http://orteil.dashnet.org/cookieclicker">Cookie Clicker</a><br />
+					You can find the source code on <a href="https://github.com/codemethis/nanite-clicker">GitHub</a>
+
+					<h2 className="text-center">Things I'm working on next</h2>
+					<ul>
+						<li>More buildings</li>
+						<li>Upgrades</li>
+					</ul>
+
 					<h2 className="text-center">Statistics</h2>
 					<Stats nanites={this.props.naniteHundredths}
 							nanitesPerSecond={this.props.nanitesPerSecond}
