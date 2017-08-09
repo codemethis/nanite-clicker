@@ -1,11 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Orbitron');
 
 $themeGreen: #080;
+$highlightGreen: #0c0;
 $transBG: rgba(0, 0, 0, 0.7);
 $naniteSize: 250px;
 $engorgedNaniteSize: $naniteSize * 1.1;
 $naniteOffset: $naniteSize / 2;
 $engorgedOffset: $engorgedNaniteSize / 2;
+$leftWidth: 5 / 12 * 100%;
+$centerWidth: 3 / 12 * 100%;
+$rightWidth: 4 /12 * 100%;
 
 body {
   margin: 0;
@@ -16,9 +20,16 @@ body {
   font-family: 'Orbitron', sans-serif;
 }
 
+// style={{height: '100vh', width: '100vw'}}
+#Game {
+	height: 100vh;
+	width: 100vw;
+	position: relative;
+}
+
 #leftPanel {
 	height: 100%;
-	width: 5 / 12 * 100%;
+	width: $leftWidth;
 	float: left;
 	position: relative;
 	background-size: cover;
@@ -52,6 +63,8 @@ body {
 		height: $engorgedNaniteSize;
 		top: calc(40% - #{$engorgedOffset});
 		left: calc(50% - #{$engorgedOffset});
+		color: $highlightGreen;
+		border-color: $highlightGreen;
 	}
 
 	&:active{
@@ -59,6 +72,8 @@ body {
 		height: $naniteSize;
 		top: calc(40% - #{$naniteOffset});
 		left: calc(50% - #{$naniteOffset});
+		color: $themeGreen;
+		border-color: $themeGreen;
 	}
 
 	@media (max-width: 768px) {
@@ -80,7 +95,7 @@ body {
 
 #centerPanel {
 	height: 100%;
-	width: 3 / 12 * 100%;
+	width: $centerWidth;
 	float:left;
 	padding: 1em;
 
@@ -92,10 +107,11 @@ body {
 
 #rightPanel {
 	height: 100%;
-	width: 4 / 12 * 100%;
+	width: $rightWidth;
 	float: left;
 	padding: 1em;
-	overflow: auto;
+	overflow-x: visible;
+	overflow-y: auto;
 
 	@media (max-width: 768px) {
 		height: auto;
@@ -103,7 +119,40 @@ body {
 	}
 }
 
+#tooltip {
+	width: 300px;
+	position: absolute;
+	right: $rightWidth;
+	border: 1px solid #999;
+	padding: 0.5em;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: $highlightGreen;
+
+	.description {
+		font-size: 8px;
+	}
+}
+
+#buildingContainer {
+	padding-bottom: 200px;
+}
+
 .building {
-	border: 1px solid #080;
+	position: relative;
+	border: 1px solid $themeGreen;
 	padding: 1em;
+
+	&:hover {
+		color: $highlightGreen;
+		border-color: $highlightGreen;
+	}
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(255, 255, 255, 0.5);
 }
