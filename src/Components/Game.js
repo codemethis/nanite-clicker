@@ -39,7 +39,7 @@ class Game extends Component {
 			let tt = '';
 			if(this.props.tooltipActive) {
 				tt = (
-					<Tooltip tooltipTop={this.props.tooltipTop} tooltipBuilding={tooltipBuilding} />
+					<Tooltip tooltipBase={this.props.tooltipBase} tooltipBuilding={tooltipBuilding} />
 				);
 			}
 
@@ -95,7 +95,7 @@ Game.propTypes = {
 	buildingsOwned: PropTypes.number.isRequired,
 	buildings: PropTypes.arrayOf(PropTypes.object).isRequired,
 	tooltipActive: PropTypes.bool.isRequired,
-	tooltipTop: PropTypes.string.isRequired,
+	tooltipBase: PropTypes.string.isRequired,
 	tooltipBuilding: PropTypes.number.isRequired,
 	loadGame: PropTypes.func.isRequired,
 	saveGame: PropTypes.func.isRequired,
@@ -116,7 +116,7 @@ const mapStateToProps = state => {
 		buildingsOwned: state.buildingsOwned,
 		buildings: state.buildings,
 		tooltipActive: state.tooltipActive,
-		tooltipTop: state.tooltipTop,
+		tooltipBase: state.tooltipBase,
 		tooltipBuilding: state.tooltipBuilding
 	};
 };
